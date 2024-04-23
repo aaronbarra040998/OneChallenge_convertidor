@@ -12,6 +12,7 @@ public class CurrencyList {
         addCurrency("PEN", "Sol Peruano");
         addCurrency("BRL", "Real Brasileño");
         addCurrency("COP", "Peso Colombiano");
+
         // Agregar más monedas si es necesario
     }
 
