@@ -14,18 +14,7 @@ public class CurrencyConverterApp {
                     continue;
                 }
 
-                double amount = 0;
-                boolean montoValido = false;
-                while (!montoValido) {
-                    System.out.print("Ingrese el monto a convertir: ");
-                    String amountInput = scanner.nextLine();
-                    try {
-                        amount = Double.parseDouble(amountInput);
-                        montoValido = true;
-                    } catch (NumberFormatException e) {
-                        System.out.println("Error: Ingrese un número válido para el monto.");
-                    }
-                }
+                double amount = getValidAmountFromUser(scanner);
 
                 Currency targetCurrency = currencySelector.selectCurrency("Seleccione la moneda objetivo:");
                 if (targetCurrency == null) {
@@ -40,15 +29,38 @@ public class CurrencyConverterApp {
                 System.out.println("El monto convertido es: " + convertedAmount + " " + targetCurrency.getCode());
 
                 System.out.println("¿Desea realizar otra conversión? (Sí/No)");
-                String respuesta = scanner.nextLine();
-                if (!respuesta.equalsIgnoreCase("Sí") && !respuesta.equalsIgnoreCase("Si")) {
+                String respuesta = scanner.nextLine().toLowerCase(); // Convertir la respuesta a minúsculas
+                if (respuesta.equals("sí") || respuesta.equals("si")) {
+                    continuar = true;
+                } else if (respuesta.equals("no")) {
+                    continuar = false;
+                } else {
+                    System.out.println("Respuesta inválida. Saliendo del programa...");
                     continuar = false;
                 }
             }
 
             System.out.println("Gracias por usar el conversor de moneda.");
-        } catch (IOException | InterruptedException e) {
-            System.err.println("Error al obtener datos de la API: " + e.getMessage());
+        } catch (IOException e) {
+            System.err.println("Error de entrada/salida: " + e.getMessage());
+        } catch (InterruptedException e) {
+            System.err.println("Operación interrumpida: " + e.getMessage());
         }
+    }
+
+    private static double getValidAmountFromUser(Scanner scanner) {
+        double amount = 0;
+        boolean montoValido = false;
+        while (!montoValido) {
+            System.out.print("Ingrese el monto a convertir: ");
+            String amountInput = scanner.nextLine();
+            try {
+                amount = Double.parseDouble(amountInput);
+                montoValido = true;
+            } catch (NumberFormatException e) {
+                System.out.println("Error: Ingrese un número válido para el monto.");
+            }
+        }
+        return amount;
     }
 }

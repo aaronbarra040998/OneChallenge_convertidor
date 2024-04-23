@@ -15,31 +15,20 @@ public class CurrencySelector {
 
         while (true) {
             System.out.println(prompt);
-            int option = 1;
-            for (Currency currency : currencies) {
-                System.out.println(option + ") " + currency.getName());
-                option++;
+            for (int i = 0; i < currencies.size(); i++) {
+                System.out.println((i + 1) + ") " + currencies.get(i).getName());
             }
 
             System.out.print("Ingrese el número de la opción deseada: ");
-
             int selectedOption = getUserInput();
-            switch (selectedOption) {
-                case 1:
-                    return currencies.get(0);
-                case 2:
-                    return currencies.get(1);
-                case 3:
-                    return currencies.get(2);
-                case 4:
-                    return currencies.get(3);
-                case 5:
-                    return currencies.get(4);
-                case 6:
-                    System.out.println("Saliendo del programa...");
-                    return null;
-                default:
-                    System.out.println("Opción inválida.");
+
+            if (selectedOption >= 1 && selectedOption <= currencies.size()) {
+                return currencies.get(selectedOption - 1);
+            } else if (selectedOption == currencies.size() + 1) {
+                System.out.println("Saliendo del programa...");
+                return null;
+            } else {
+                System.out.println("Opción inválida.");
             }
         }
     }
